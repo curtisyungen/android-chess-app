@@ -90,20 +90,24 @@ public abstract class Piece extends Fragment {
     private void onDrag(ImageView piece, int x_cord, int y_cord) {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) piece.getLayoutParams();
 
+        int x_adjust = 60;
+        int y_lower_boundary = 680;
+        int y_upper_boundary = 1620;
+
         if (x_cord > MainActivity.screenwidth) {
             x_cord = MainActivity.screenwidth;
         }
 
-        if (y_cord < 680) {
-            y_cord = 680;
+        if (y_cord < y_lower_boundary) {
+            y_cord = y_lower_boundary;
         }
 
-        if (y_cord > 1620) {
-            y_cord = 1620;
+        if (y_cord > y_upper_boundary) {
+            y_cord = y_upper_boundary;
         }
 
-        layoutParams.leftMargin = x_cord - 60;
-        layoutParams.topMargin = y_cord - 680;
+        layoutParams.leftMargin = x_cord - x_adjust;
+        layoutParams.topMargin = y_cord - y_lower_boundary;
 
         piece.setLayoutParams(layoutParams);
     }
