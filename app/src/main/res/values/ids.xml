@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="wr1"/>
+    <item type="id" name="wn1"/>
+    <item type="id" name="wb1"/>
+    <item type="id" name="wq1"/>
+    <item type="id" name="wk1"/>
+    <item type="id" name="wb2"/>
+    <item type="id" name="wn2"/>
+    <item type="id" name="wr2"/>
+    <item type="id" name="wp1"/>
+    <item type="id" name="wp2"/>
+    <item type="id" name="wp3"/>
+    <item type="id" name="wp4"/>
+    <item type="id" name="wp5"/>
+    <item type="id" name="wp6"/>
+    <item type="id" name="wp7"/>
+    <item type="id" name="wp8"/>
+
+    <item type="id" name="br1"/>
+    <item type="id" name="bn1"/>
+    <item type="id" name="bb1"/>
+    <item type="id" name="bq1"/>
+    <item type="id" name="bk1"/>
+    <item type="id" name="bb2"/>
+    <item type="id" name="bn2"/>
+    <item type="id" name="br2"/>
+    <item type="id" name="bp1"/>
+    <item type="id" name="bp2"/>
+    <item type="id" name="bp3"/>
+    <item type="id" name="bp4"/>
+    <item type="id" name="bp5"/>
+    <item type="id" name="bp6"/>
+    <item type="id" name="bp7"/>
+    <item type="id" name="bp8"/>
+</resources>

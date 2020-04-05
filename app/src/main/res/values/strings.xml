@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ChessApp</string>
+    <string name="dark_color">aaaaaa</string>
+    <string name="light_color">f2f2f2</string>
+    <string name="whiteToMove">White to move</string>
+    <string name="blackToMove">Black to Move</string>
+    <string name="resetBtn">Reset</string>
+    <string name="fwdBtn">Fwd</string>
+    <string name="backBtn">Back</string>
+    <string name="checkmate_white">Checkmate! White wins.</string>
+    <string name="checkmate_black">Checkmate! Black wins.</string>
+</resources>
