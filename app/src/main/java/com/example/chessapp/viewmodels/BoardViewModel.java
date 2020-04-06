@@ -680,8 +680,6 @@ public class BoardViewModel extends ViewModel {
         String[] boardArray = mBoardArray.getValue();
         assert boardArray != null;
 
-        Log.d("CAPTURE", String.format("row %s, col %s", row, col));
-
         String capturedPieceId = boardArray[getIdxInBoardArray(row, col)];
 
         if (capturedPieceId.charAt(0) == 'w') {

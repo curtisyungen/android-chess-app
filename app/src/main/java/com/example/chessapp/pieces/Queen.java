@@ -19,7 +19,9 @@ public class Queen extends Piece {
         int id = R.id.wq1;
         switch (this.getPieceId()) {
             case "wq1": id = R.id.wq1; break;
+            case "wq2": id = R.id.wq2; break;
             case "bq1": id = R.id.bq1; break;
+            case "bq2": id = R.id.bq2; break;
             default: break;
         }
 

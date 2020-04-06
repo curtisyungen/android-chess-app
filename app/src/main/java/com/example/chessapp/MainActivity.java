@@ -248,6 +248,11 @@ public class MainActivity extends AppCompatActivity {
         View hidePiece = findViewById(piece.getPieceViewId());
         hidePiece.setVisibility(View.GONE);
 
+        PieceViewModel pieceModel = getPieceViewModel();
+        Piece wq1 = pieceModel.getPieceById("wq1");
+
+        Log.d("CAPTURE", String.format("pieceViewId %s, wq1 view id %s", piece.getPieceViewId(), wq1.getPieceViewId()));
+
         int pieceHeight = screenheight / 16;
         int pieceWidth = screenwidth / 16;
 
