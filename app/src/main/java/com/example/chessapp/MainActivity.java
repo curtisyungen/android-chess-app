@@ -130,6 +130,23 @@ public class MainActivity extends AppCompatActivity {
 
         pieceModel.getPieceArray().observe(this, observer);
         pieceModel.setPosition();
+
+        pieceModel.getPromotedPawn().observe(this, new Observer<Piece>() {
+            @Override
+            public void onChanged(Piece piece) {
+                View hidePiece = findViewById(piece.getPieceViewId());
+                hidePiece.setVisibility(View.GONE);
+            }
+        });
+
+        pieceModel.getNewQueen().observe(this, new Observer<Piece>() {
+            @Override
+            public void onChanged(Piece piece) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.board_container, piece)
+                        .commit();
+            }
+        });
     }
 
     public void initBoardViewModel() {

@@ -29,7 +29,7 @@ public class Queen extends Piece {
     @Override
     public int setPieceImage(ImageView piece) {
         int drawable;
-        if (getColor() == "white") {
+        if (getColor().equals("white")) {
             drawable = R.drawable.wqueen;
         }
         else {

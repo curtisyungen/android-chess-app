@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.chessapp.game.Type;
 import com.example.chessapp.pieces.Bishop;
 import com.example.chessapp.pieces.King;
 import com.example.chessapp.pieces.Knight;
@@ -26,16 +26,17 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.List;
 
 public class PieceViewModel extends ViewModel {
     private static final String TAG = "PieceViewModel";
 
     private MutableLiveData<ArrayList<Piece>> mPieceArray = new MutableLiveData<>();
+    private MutableLiveData<Piece> mNewPiece = new MutableLiveData<>();
+    private MutableLiveData<Piece> mPromotedPawn = new MutableLiveData<>();
 
     public LiveData<ArrayList<Piece>> getPieceArray() {
         return mPieceArray;
@@ -100,29 +101,26 @@ public class PieceViewModel extends ViewModel {
         setPosition();
     }
 
-    public void movePieceToPosition(String pieceId, int endRow, int endCol) {
-        ArrayList<Piece> pieces = mPieceArray.getValue();
-        Piece piece = getPieceById(pieceId);
+    public void promotePawnToQueen(String pieceId, int row, int col) {
+        Log.d("PROMOTE", "promotePawnToQueen called.");
 
-        Type pieceType = piece.getType();
-        String color = piece.getColor();
+        String colorStr = "white";
+        char colorChar = pieceId.charAt(0);
+        if (colorChar == 'b') colorStr = "black";
 
-        pieces.remove(piece);
+        Piece oldPiece = getPieceById(pieceId);
+        Piece newPiece = new Queen(String.format("%sq2", colorChar), row, col, colorStr);
 
-        Piece newPiece;
+        mPromotedPawn.setValue(oldPiece);
+        mNewPiece.setValue(newPiece);
+    }
 
-        if (pieceType == Type.ROOK) {
-            newPiece = new Rook(pieceId, endRow, endCol, color);
-        }
-        else if (pieceType == Type.KNIGHT) {
-            newPiece = new Knight(pieceId, endRow, endCol, color);
-        }
-        else if (pieceType == Type.BISHOP) {
-            newPiece = new Bishop(pieceId, endRow, endCol, color);
-        }
-        else {
-            newPiece = new Queen(pieceId, endRow, endCol, color);
-        }
+    public LiveData<Piece> getPromotedPawn() {
+        return mPromotedPawn;
+    }
+
+    public LiveData<Piece> getNewQueen() {
+        return mNewPiece;
     }
 
     public void setPosition() {

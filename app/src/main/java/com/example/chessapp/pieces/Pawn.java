@@ -12,12 +12,12 @@ public class Pawn extends Piece {
 
     private static final String TAG = "Pawn";
     private int direction;
-    private boolean mEnPassant;
+    private String mEnPassantTarget;
 
     public Pawn(String id, int row, int col, String color) {
         super(id, row, col, color);
         this.setType(Type.PAWN);
-        this.mEnPassant = false;
+        this.mEnPassantTarget = "";
 
         if (color.equals("white")) this.direction = 1; // moving up on screen
         else this.direction = -1;
@@ -98,11 +98,17 @@ public class Pawn extends Piece {
         boolean isCapturing = (startRow - endRow == this.direction) && Math.abs(startCol - endCol) == 1;
         boolean landingSquareIsOccupied = boardModel.checkForPieceOnLandingSquare(endRow, endCol);
 
+        //if (endRow == 1 && direction == 1 || endRow == 8 && direction == -1) {
+        //    Log.d("PROMOTE", String.format("endRow %s, endCol %s", endRow, endCol));
+        //    boardModel.promoteToQueen(this.getPieceId(), startRow, startCol, endRow, endCol);
+        //    return true;
+        //}
+
         if (landingSquareIsOccupied) return isCapturing;
 
-        if (isCapturing && mEnPassant) {
+        if (isCapturing && !mEnPassantTarget.equals("")) {
             boardModel.enPassant(startRow, endCol);
-            this.mEnPassant = false;
+            this.mEnPassantTarget = "";
             return true;
         }
 
@@ -128,12 +134,7 @@ public class Pawn extends Piece {
         return false;
     }
 
-    public void enableEnPassant(int key) {
-        switch (key) {
-            case 1:
-                mEnPassant = true; break;
-            case 2:
-                mEnPassant = false; break;
-        }
+    public void enableEnPassant(String targetId) {
+        mEnPassantTarget = targetId;
     }
 }

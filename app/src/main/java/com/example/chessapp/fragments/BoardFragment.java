@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.chessapp.MainActivity;
+import com.example.chessapp.viewmodels.BoardViewModel;
 
 /**
  * A simple {@link Fragment} subclass.

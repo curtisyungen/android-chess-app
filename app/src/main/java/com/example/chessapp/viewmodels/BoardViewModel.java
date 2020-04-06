@@ -377,34 +377,42 @@ public class BoardViewModel extends ViewModel {
         }
 
         // Check for threats from pawns
-        if (kRow + 1 <= 8) {
-            if (kCol + 1 <= 8) {
-                pieceAt = boardArray[getIdxInBoardArray(kRow + 1, kCol + 1)];
-                if (!pieceAt.equals("")) {
-                    if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p') return pieceAt;
+        if (kingColor == 'b') {
+            if (kRow + 1 <= 8) {
+                if (kCol + 1 <= 8) {
+                    pieceAt = boardArray[getIdxInBoardArray(kRow + 1, kCol + 1)];
+                    if (!pieceAt.equals("")) {
+                        if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p')
+                            return pieceAt;
+                    }
                 }
-            }
 
-            if (kCol - 1 >= 1) {
-                pieceAt = boardArray[getIdxInBoardArray(kRow + 1, kCol - 1)];
-                if (!pieceAt.equals("")) {
-                    if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p') return pieceAt;
+                if (kCol - 1 >= 1) {
+                    pieceAt = boardArray[getIdxInBoardArray(kRow + 1, kCol - 1)];
+                    if (!pieceAt.equals("")) {
+                        if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p')
+                            return pieceAt;
+                    }
                 }
             }
         }
 
-        if (kRow - 1 >= 1) {
-            if (kCol + 1 <= 8) {
-                pieceAt = boardArray[getIdxInBoardArray(kRow - 1, kCol + 1)];
-                if (!pieceAt.equals("")) {
-                    if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p') return pieceAt;
+        else if (kingColor == 'w') {
+            if (kRow - 1 >= 1) {
+                if (kCol + 1 <= 8) {
+                    pieceAt = boardArray[getIdxInBoardArray(kRow - 1, kCol + 1)];
+                    if (!pieceAt.equals("")) {
+                        if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p')
+                            return pieceAt;
+                    }
                 }
-            }
 
-            if (kCol - 1 >= 1) {
-                pieceAt = boardArray[getIdxInBoardArray(kRow - 1, kCol - 1)];
-                if (!pieceAt.equals("")) {
-                    if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p') return pieceAt;
+                if (kCol - 1 >= 1) {
+                    pieceAt = boardArray[getIdxInBoardArray(kRow - 1, kCol - 1)];
+                    if (!pieceAt.equals("")) {
+                        if (pieceAt.charAt(0) != kingColor && pieceAt.charAt(1) == 'p')
+                            return pieceAt;
+                    }
                 }
             }
         }
@@ -659,7 +667,7 @@ public class BoardViewModel extends ViewModel {
         PieceViewModel pieceModel = MainActivity.getPieceViewModel();
         for (int i=1; i<=8; i++) {
             Pawn pawn = (Pawn) pieceModel.getPieceById(String.format("%sp%s", color, i));
-            pawn.enableEnPassant(2);
+            pawn.enableEnPassant("");
         }
     }
 
@@ -741,7 +749,7 @@ public class BoardViewModel extends ViewModel {
             pieceAt = boardArray[getIdxInBoardArray(row, col + 1)];
             if (!pieceAt.equals("") && pieceAt.charAt(0) != color.charAt(0) && pieceAt.charAt(1) == 'p') {
                 tPawn = (Pawn) pieceModel.getPieceById(pieceAt);
-                tPawn.enableEnPassant(1);
+                tPawn.enableEnPassant(pieceAt);
             }
         }
 
@@ -749,7 +757,7 @@ public class BoardViewModel extends ViewModel {
             pieceAt = boardArray[getIdxInBoardArray(row, col - 1)];
             if (!pieceAt.equals("") && pieceAt.charAt(0) != color.charAt(0) && pieceAt.charAt(1) == 'p') {
                 tPawn = (Pawn) pieceModel.getPieceById(pieceAt);
-                tPawn.enableEnPassant(1);
+                tPawn.enableEnPassant(pieceAt);
             }
         }
     }
@@ -762,6 +770,24 @@ public class BoardViewModel extends ViewModel {
 
         boardArray[getIdxInBoardArray(row, col)] = "";
         mBoardArray.setValue(boardArray);
+    }
 
+    public void promoteToQueen(String pieceId, int startRow, int startCol, int endRow, int endCol) {
+        String[] boardArray = mBoardArray.getValue();
+        assert boardArray != null;
+
+        char colorChar = 'w';
+        if (endRow == 8) { colorChar = 'b'; }
+
+        boardArray[getIdxInBoardArray(startRow, startCol)] = "";
+        boardArray[getIdxInBoardArray(endRow, endCol)] = String.format("%sq2", colorChar);
+        mBoardArray.setValue(boardArray);
+
+        Log.d("PROMOTE", String.format("boardArray start %s", boardArray[getIdxInBoardArray(startRow, startCol)]));
+
+        PieceViewModel pieceModel = MainActivity.getPieceViewModel();
+        pieceModel.promotePawnToQueen(pieceId, endRow, endCol);
+
+        setPlayerTurn(getPlayerTurn().getValue() + 1);
     }
 }
