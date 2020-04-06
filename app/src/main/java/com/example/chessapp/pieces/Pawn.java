@@ -98,12 +98,6 @@ public class Pawn extends Piece {
         boolean isCapturing = (startRow - endRow == this.direction) && Math.abs(startCol - endCol) == 1;
         boolean landingSquareIsOccupied = boardModel.checkForPieceOnLandingSquare(endRow, endCol);
 
-        //if (endRow == 1 && direction == 1 || endRow == 8 && direction == -1) {
-        //    Log.d("PROMOTE", String.format("endRow %s, endCol %s", endRow, endCol));
-        //    boardModel.promoteToQueen(this.getPieceId(), startRow, startCol, endRow, endCol);
-        //    return true;
-        //}
-
         if (landingSquareIsOccupied) return isCapturing;
 
         if (isCapturing && !mEnPassantTarget.equals("")) {

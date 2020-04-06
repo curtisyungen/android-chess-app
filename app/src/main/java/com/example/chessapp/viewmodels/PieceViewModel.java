@@ -103,16 +103,21 @@ public class PieceViewModel extends ViewModel {
 
     public void promotePawnToQueen(String pieceId, int row, int col) {
         Log.d("PROMOTE", "promotePawnToQueen called.");
+        ArrayList<Piece> pieces = mPieceArray.getValue();
 
         String colorStr = "white";
-        char colorChar = pieceId.charAt(0);
-        if (colorChar == 'b') colorStr = "black";
+        if (pieceId.charAt(0) == 'b') colorStr = "black";
+
+        String newQueenId = String.format("%sq2", pieceId.charAt(0));
 
         Piece oldPiece = getPieceById(pieceId);
-        Piece newPiece = new Queen(String.format("%sq2", colorChar), row, col, colorStr);
+        Piece newPiece = new Queen(newQueenId, row, col, colorStr);
+        pieces.add(newPiece);
 
         mPromotedPawn.setValue(oldPiece);
         mNewPiece.setValue(newPiece);
+
+        mPieceArray.setValue(pieces);
     }
 
     public LiveData<Piece> getPromotedPawn() {

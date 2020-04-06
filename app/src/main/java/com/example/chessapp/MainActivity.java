@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.chessapp.fragments.BoardFragment;
 import com.example.chessapp.pieces.King;
 import com.example.chessapp.pieces.Piece;
+import com.example.chessapp.pieces.Queen;
 import com.example.chessapp.viewmodels.BoardViewModel;
 import com.example.chessapp.viewmodels.PieceViewModel;
 
@@ -115,9 +116,12 @@ public class MainActivity extends AppCompatActivity {
                 if (pieces == null) return;
 
                 for (int p = 0; p < pieces.size(); p++) {
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.board_container, pieces.get(p))
-                            .commit();
+                    Fragment frag = getSupportFragmentManager().findFragmentById(pieces.get(p).getId());
+                    if (frag == null) {
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.board_container, pieces.get(p))
+                                .commit();
+                    }
 
                     if (pieces.get(p).getPieceId().equals("wk1")) {
                         boardModel.setWhiteKingPosition(pieces.get(p).getRow(), pieces.get(p).getCol());
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         pieceModel.getPromotedPawn().observe(this, new Observer<Piece>() {
             @Override
             public void onChanged(Piece piece) {
+                if (piece == null) return;
                 View hidePiece = findViewById(piece.getPieceViewId());
                 hidePiece.setVisibility(View.GONE);
             }
@@ -164,10 +169,8 @@ public class MainActivity extends AppCompatActivity {
         boardModel.getCapturedWhite().observe(this, new Observer<ArrayList<String>>() {
             @Override
             public void onChanged(ArrayList<String> capturedWhite) {
-
                 if (capturedWhite == null || capturedWhite.size() == 0) return;
 
-                Log.d(TAG, "onChanged: white piece captured.");
                 String capturedPiece = capturedWhite.get(capturedWhite.size() - 1);
                 Piece piece = pieceModel.getPieceById(capturedPiece);
                 piece.setPieceAsCaptured();
@@ -178,13 +181,13 @@ public class MainActivity extends AppCompatActivity {
         boardModel.getCapturedBlack().observe(this, new Observer<ArrayList<String>>() {
             @Override
             public void onChanged(ArrayList<String> capturedBlack) {
-
                 if (capturedBlack == null || capturedBlack.size() == 0) return;
 
-                Log.d(TAG, "onChanged: black piece captured.");
                 String capturedPiece = capturedBlack.get(capturedBlack.size() - 1);
+
                 Piece piece = pieceModel.getPieceById(capturedPiece);
                 piece.setPieceAsCaptured();
+
                 showPieceAsCaptured(piece, capturedBlack.size());
             }
         });
@@ -203,8 +206,7 @@ public class MainActivity extends AppCompatActivity {
                     if (checkmate) {
                         setCheckMate('b');
                         getAnimation(0, 0, true);
-                    }
-                    else getAnimation(whiteKing.getRow(), whiteKing.getCol(), false);
+                    } else getAnimation(whiteKing.getRow(), whiteKing.getCol(), false);
                 }
 
             }
@@ -224,8 +226,7 @@ public class MainActivity extends AppCompatActivity {
                     if (checkmate) {
                         setCheckMate('w');
                         getAnimation(0, 0, true);
-                    }
-                    else getAnimation(blackKing.getRow(), blackKing.getCol(), false);
+                    } else getAnimation(blackKing.getRow(), blackKing.getCol(), false);
                 }
             }
         });
@@ -403,10 +404,10 @@ public class MainActivity extends AppCompatActivity {
         colorAnimation.start();
     }
 
-    public void resetAnimation()  {
+    public void resetAnimation() {
         int color;
-        for (int i=0; i<=8; i++) {
-            for (int j=0; j<=8; j++) {
+        for (int i = 0; i <= 8; i++) {
+            for (int j = 0; j <= 8; j++) {
                 if ((i + j) % 2 == 0) color = Color.parseColor("#f2f2f2");
                 else color = Color.parseColor("#cccccc");
                 unanimate(i, j, color, 0, false);

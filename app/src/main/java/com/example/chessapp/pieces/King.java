@@ -45,7 +45,7 @@ public class King extends Piece {
 
     @Override
     public boolean checkValidMove(int startRow, int startCol, int endRow, int endCol) {
-        if ((startRow - endRow) == 0 && Math.abs(startCol - endCol) > 1) {
+        if ((startRow - endRow) == 0 && Math.abs(startCol - endCol) == 2) {
             return !mIsInCheck && !checkIfMoved() && checkIfCanCastle(startCol, endCol);
         }
         return Math.abs(startRow - endRow) <= 1 && Math.abs(startCol - endCol) <= 1;

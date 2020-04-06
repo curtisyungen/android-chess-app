@@ -645,6 +645,11 @@ public class BoardViewModel extends ViewModel {
             capturePiece(endRow, endCol);
         }
 
+        if (pieceId.charAt(1) == 'p' && (endRow == 1 || endRow == 8)) {
+            promoteToQueen(pieceId, startRow, startCol, endRow, endCol);
+            pieceId = String.format("%sq2", pieceId.charAt(0));
+        }
+
         Array.set(boardArray, startIdx, "");
         Array.set(boardArray, endIdx, pieceId);
 
@@ -674,6 +679,8 @@ public class BoardViewModel extends ViewModel {
     private void capturePiece(int row, int col) {
         String[] boardArray = mBoardArray.getValue();
         assert boardArray != null;
+
+        Log.d("CAPTURE", String.format("row %s, col %s", row, col));
 
         String capturedPieceId = boardArray[getIdxInBoardArray(row, col)];
 
@@ -773,21 +780,7 @@ public class BoardViewModel extends ViewModel {
     }
 
     public void promoteToQueen(String pieceId, int startRow, int startCol, int endRow, int endCol) {
-        String[] boardArray = mBoardArray.getValue();
-        assert boardArray != null;
-
-        char colorChar = 'w';
-        if (endRow == 8) { colorChar = 'b'; }
-
-        boardArray[getIdxInBoardArray(startRow, startCol)] = "";
-        boardArray[getIdxInBoardArray(endRow, endCol)] = String.format("%sq2", colorChar);
-        mBoardArray.setValue(boardArray);
-
-        Log.d("PROMOTE", String.format("boardArray start %s", boardArray[getIdxInBoardArray(startRow, startCol)]));
-
         PieceViewModel pieceModel = MainActivity.getPieceViewModel();
         pieceModel.promotePawnToQueen(pieceId, endRow, endCol);
-
-        setPlayerTurn(getPlayerTurn().getValue() + 1);
     }
 }
